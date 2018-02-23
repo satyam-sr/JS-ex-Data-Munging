@@ -11,7 +11,7 @@ This will create the required json files.
 
 For ESlint, run -
 
-	 /node_modules/.bin/eslint --init
+	 /node_modules/.bin/eslint jsx2.js
 
 Now in the terminal, run -
 
