@@ -9,9 +9,9 @@ const ostream1 = fs.createWriteStream('part21.json');
 const ostream2 = fs.createWriteStream('part22.json');
 const outstream = new stream();
 const rl = readline.createInterface(instream, outstream);
-let a = 0;
-let head;
-const list = ['Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei Darussalam', 'Cambodia', 'China', 'Cyprus',
+let cnt = 0;
+let header;
+const AsianCountries = ['Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei Darussalam', 'Cambodia', 'China', 'Cyprus',
   'Georgia', 'India', 'Indonesia', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Lebanon',
   'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'Oman', 'Pakistan', 'Philippines', 'Qatar',
   'Saudi Arabia', 'Singapore', 'Sri Lanka', 'Syrian Arab Republic', 'Tajikistan', 'Thailand',
@@ -19,112 +19,112 @@ const list = ['Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', '
 ];
 
 const ans = [];
-const mp1 = {};
-const mp2 = {};
-const mp3 = {};
+const MapOfMale = {};
+const MapOfFemale = {};
+const MapOfTotal = {};
 
-for (let i = 0; i < list.length; i += 1) {
-  mp1[list[i]] = 0;
-  mp2[list[i]] = 0;
-  mp3[list[i]] = 0;
+for (let i = 0; i < AsianCountries.length; i += 1) {
+  MapOfMale[AsianCountries[i]] = 0;
+  MapOfFemale[AsianCountries[i]] = 0;
+  MapOfTotal[AsianCountries[i]] = 0;
 }
 
 rl.on('line', (line) => {
   const str = line.toString();
-  if (a === 0) {
-    head = str.split(',');
+  if (cnt === 0) {
+    header = str.split(',');
   } else {
     const obj = {};
     let p = 0;
     const spl = str.split(',');
-    for (let i = 0; i < list.length; i += 1) {
-      if (spl[0] === list[i]) {
+    for (let i = 0; i < AsianCountries.length; i += 1) {
+      if (spl[0] === AsianCountries[i]) {
         p = 1;
         break;
       }
     }
     // console.log(spl[2]);
-    const name = 0;
-    const cd = 1;
-    const id1 = 2;
-    const id2 = 3;
-    const idc = 4;
-    const year = 5;
-    const val = 6;
-    const pos = spl[id1].search(/^"Life expectancy at birth/);
-    if (pos !== -1 && p === 1) {
+    const name = header.indexOf('CountryName');
+    const code = header.indexOf('CountryCode');
+    const id1 = header.indexOf('IndicatorName');
+    const id2 = header.indexOf('IndicatorName') + 1;
+    const idcode = header.indexOf('IndicatorCode') + 1;
+    const year = header.indexOf('Year') + 1;
+    const val = header.indexOf('Value') + 1;
+    const pos = spl[id1].includes('Life expectancy at birth');
+    if (pos === true && p === 1) {
       // console.log(str);
       // ostream.write(cnt+" s-> {"+str+"}"+"\n");
-      obj[head[name]] = spl[name];
-      obj[head[cd]] = spl[cd];
+      obj[header[name]] = spl[name];
+      obj[header[code]] = spl[code];
       const st = `${spl[id1]},${spl[id2]}`;
-      obj[head[id1]] = st.replace(/"/g, '');
-      obj[head[id2]] = spl[idc];
-      obj[head[idc]] = spl[year];
-      obj[head[year]] = spl[val];
+      obj[header[id1]] = st.replace(/"/g, '');
+      obj[header[id2]] = spl[idcode];
+      obj[header[idcode]] = spl[year];
+      obj[header[year]] = spl[val];
 
       // spl[3] = spl[3].replace(/\'/g,"")
 
       if (spl[3].includes('female')) {
-        mp2[spl[0]] += parseFloat(spl[6]);
+        MapOfFemale[spl[0]] += parseFloat(spl[6]);
       } else if (spl[3].includes('male')) {
-        mp1[spl[0]] += parseFloat(spl[6]);
+        MapOfMale[spl[0]] += parseFloat(spl[6]);
       } else {
-        mp3[spl[0]] += parseFloat(spl[6]);
+        MapOfTotal[spl[0]] += parseFloat(spl[6]);
       }
 
       ans.push(obj);
     }
   }
   // console.log(cnt++);
-  a += 1;
+  cnt += 1;
 });
 
 rl.on('close', () => {
   // console.log('closed')
-  const ansjson = JSON.stringify(ans);
-  ostream.write(ansjson);
+  const ansinjson = JSON.stringify(ans);
+  ostream.write(ansinjson);
 
-  const bar = [];
-  for (let i = 0; i < list.length; i += 1) {
+  const dataGraph1 = [];
+  for (let i = 0; i < AsianCountries.length; i += 1) {
     const dict = {};
-    mp1[list[i]] /= 56.0;
-    mp2[list[i]] /= 56.0;
-    mp3[list[i]] /= 56.0;
+    MapOfMale[AsianCountries[i]] /= 56.0;
+    MapOfFemale[AsianCountries[i]] /= 56.0;
+    MapOfTotal[AsianCountries[i]] /= 56.0;
 
-    dict.Country = list[i];
-    dict.AverageExpectancyMale = mp1[list[i]];
-    dict.AverageExpectancyFemale = mp2[list[i]];
+    dict.Country = AsianCountries[i];
+    dict.AverageExpectancyMale = MapOfMale[AsianCountries[i]];
+    dict.AverageExpectancyFemale = MapOfFemale[AsianCountries[i]];
 
     /* dict1 = {} ;
-        dict1["Male"] = mp1[list[i]];
-        dict1["female"] = mp2[list[i]];
+        dict1["Male"] = MapOfMale[AsianCountries[i]];
+        dict1["female"] = MapOfFemale[AsianCountries[i]];
 
         dict["AverageExpectancy"] = dict1; */
 
-    bar.push(dict);
+    dataGraph1.push(dict);
   }
 
-  const grf2 = [];
+  const dataGraph2 = [];
   for (let i = 0; i < 5; i += 1) {
     const dic = {};
     let max = 0;
-    let k;
-    for (let j = 0; j < list.length; j += 1) {
-      if (mp3[list[j]] > max) {
-        max = mp3[list[j]];
-        k = j;
+    let IndexofMax;
+    for (let j = 0; j < AsianCountries.length; j += 1) {
+      if (MapOfTotal[AsianCountries[j]] > max) {
+        max = MapOfTotal[AsianCountries[j]];
+        IndexofMax = j;
       }
     }
-    dic.Country = list[k];
-    dic.AverageExpectancyTotal = mp3[list[k]];
-    grf2.push(dic);
-    mp3[list[k]] = 0;
+    dic.Country = AsianCountries[IndexofMax];
+    dic.AverageExpectancyTotal = MapOfTotal[AsianCountries[IndexofMax]];
+    dataGraph2.push(dic);
+    MapOfTotal[AsianCountries[IndexofMax]] = 0;
   }
 
-  const barjson = JSON.stringify(bar);
-  const grf2json = JSON.stringify(grf2);
-  ostream1.write(barjson);
-  ostream2.write(grf2json);
-  // console.log(mp1);
+  const dataGraph1inJson = JSON.stringify(dataGraph1);
+  const dataGraph2inJson = JSON.stringify(dataGraph2);
+  ostream1.write(dataGraph1inJson);
+  ostream2.write(dataGraph2inJson);
+  // console.log(MapOfMale);
 });

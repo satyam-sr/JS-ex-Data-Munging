@@ -19,7 +19,7 @@
 <div class="row">
   <h3>Life Expectancy at birth</h3>
   <P>TOP 5 COUNTRIES</P>
-<div class="col s4 card-panel grey lighten-2 z-depth-5">Period: 1960-2015(Average)</div>
+<!--<div class="col s4 card-panel grey lighten-2 z-depth-5">Period: 1960-2015(Average)</div>-->
 
 </div>
 
@@ -106,15 +106,10 @@ d3.json("./../part22.json", function(error, data) {
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.AverageExpectancyTotal); })
       .attr("height", function(d) { return height - y(d.AverageExpectancyTotal); });
-     
-
-       
-
 
 });
 
 </script>
 </div>
-<h5> --- Country Name --- </h5>
 </body>
 </html>
