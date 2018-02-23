@@ -1,0 +1,36 @@
+html {
+    font-family: GillSans, Calibri, Trebuchet, sans-serif;
+}
+     
+
+.bar1{
+  fill: lightblue;
+}
+
+.bar1:hover{
+  fill: blue;
+}
+
+.bar2{
+  fill:green;
+}
+
+.bar2:hover{
+  fill: pink;  
+}
+
+.axis {
+  font-size: 12px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+h5{
+  text-align: center;
+  margin-top: 0px;
+}

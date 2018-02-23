@@ -1,0 +1,31 @@
+html {
+    font-family: GillSans, Calibri, Trebuchet, sans-serif;
+}
+     
+svg{
+      margin-left: 400px;
+}
+
+.bar1{
+  fill:#606060;
+}
+
+.bar1:hover{
+  fill: pink;  
+}
+
+.axis {
+  font-size: 12px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+h5{
+  text-align: center;
+  margin-top: 0px;
+}
