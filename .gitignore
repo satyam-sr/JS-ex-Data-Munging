@@ -1,7 +1,7 @@
 .Indicators.csv
 Indicators.csv
-part21.json
-part22.json
+graph1.json
+graph2.json
 ans.json
 gitignore
 node_modules/
