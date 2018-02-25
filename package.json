@@ -4,7 +4,10 @@
   "description": "Javascipt Exercise on Data Munging",
   "main": "jsx2.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint jsx2.js",
+    "generate": "node jsx2.js",
+    "start": "http-server"
   },
   "repository": {
     "type": "git",
